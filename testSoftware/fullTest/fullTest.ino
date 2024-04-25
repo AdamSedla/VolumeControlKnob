@@ -39,9 +39,12 @@ void lcdInit(){
 }
 
 void setup() {
+  Serial.begin(9600);
   pinMode(SYNC, INPUT_PULLUP);
   pinMode(SETT, INPUT_PULLUP);
   pinMode(APP_CHOOSE, INPUT_PULLUP);
   pinMode(ROT_CLK, INPUT);
   pinMode(ROT_DT, INPUT);
   pinMode(ROT_SW, INPUT);
+
+  Serial.print("Serial_begin");
