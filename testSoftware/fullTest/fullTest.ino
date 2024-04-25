@@ -32,3 +32,13 @@ void loop() {
 
 Arduino_ST7789 lcd = Arduino_ST7789(TFT_DC, TFT_RST);
 const int chipSelect = SD_CS;
+
+void lcdInit(){
+  lcd.begin();
+  lcd.fillScreen(BLUE);
+  lcd.setTextSize(3);
+  lcd.setCursor(10, 10);
+  lcd.write("lcd_init SUCCESS!");
+  Serial.print("LCD_init DONE\n");
+}
+
