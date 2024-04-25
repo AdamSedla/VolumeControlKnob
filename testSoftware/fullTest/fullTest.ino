@@ -1,7 +1,3 @@
-void setup() {
-  // put your setup code here, to run once:
-
-}
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -42,3 +38,10 @@ void lcdInit(){
   Serial.print("LCD_init DONE\n");
 }
 
+void setup() {
+  pinMode(SYNC, INPUT_PULLUP);
+  pinMode(SETT, INPUT_PULLUP);
+  pinMode(APP_CHOOSE, INPUT_PULLUP);
+  pinMode(ROT_CLK, INPUT);
+  pinMode(ROT_DT, INPUT);
+  pinMode(ROT_SW, INPUT);
