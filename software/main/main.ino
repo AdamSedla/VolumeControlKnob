@@ -151,3 +151,5 @@ void setup() {
   lcd.setTextColor(WHITE);
   lcd.fillScreen(BLACK);
 }
+void loop() {
+}
