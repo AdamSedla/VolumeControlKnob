@@ -2,6 +2,7 @@
 #include <SD.h>
 #include <Adafruit_GFX.h>
 #include <Arduino_ST7789_Fast.h>
+#include "logo.h"
 
 //SD_reader
 #define SD_CS 4
@@ -26,7 +27,6 @@ const int chipSelect = SD_CS;
 
 Sd2Card card;
 
-
 void lcdInit() {
   lcd.begin();
   lcd.fillScreen(BLUE);
@@ -40,7 +40,7 @@ void lcdInit() {
 void sdInit() {
   lcd.setCursor(10, 50);
 
-  if (/* !card.init(SPI_HALF_SPEED, SD_CS) */false) {
+  if (true /* SD.begin() */) {  //program se zde bohužel zasekne při pokusu o inicializaci sd karty
     lcd.setTextColor(GREEN);
     lcd.write("SD SUCCES");
     Serial.print("O");
@@ -65,33 +65,83 @@ void setup() {
   lcdInit();
   sdInit();
 
+
+  //attachInterrupt(digitalPinToInterrupt(APP_CHOOSE), drawJoystick, LOW);
+  //attachInterrupt(digitalPinToInterrupt(SETT), drawDiscord, LOW);
+
+
+
   lcd.setTextColor(WHITE);
 }
 
-int btn_app;
-int btn_sync;
-int btn_sett;
+
+
+/* enum displayState {
+  DISCORD, JOYSTICK, SPOTIFY
+};
+
+enum displayState DISP; */
+
+
+
+void drawDiscord() {
+  lcd.fillScreen(BLACK);
+  size_t imagePos = 0;
+
+
+      /*
+        1 - imagePos + 2*(imagePos-1)
+        2 - imagePos + imagePos*2-1 
+        3 - 3*imagePos
+        */    
+
+  for(size_t i = 0; i<80;i++){
+    for(size_t j = 0;j<80;j++){
+      /* lcd.drawPixel(j + 2*(j-1) , i + i*2-1 , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j + 2*(j-1) , i + 2 * (i-1) , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j + 2*(j-1) , i*3 , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j + j*2-1   , i + i*2-1 , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j + j*2-1   , i + 2 * (i-1) , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j + j*2-1   , i*3 , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j * 3       , i + i*2-1 , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j * 3       , i + 2 * (i-1) , pgm_read_word(&discord[imagePos]));
+      lcd.drawPixel(j * 3       , i*3 , pgm_read_word(&discord[imagePos])); */
+  
+    
+      imagePos++;
+    }
+  }  
+}
+
+void drawJoystick() {
+  lcd.fillScreen(BLACK);
+  size_t imagePos = 0;
+
+      /*
+        1 - imagePos + 2*(imagePos-1)
+        2 - imagePos + imagePos*2-1 
+        3 - 3*imagePos
+        */    
+
+     for(size_t i = 0; i<80;i++){
+    for(size_t j = 0;j<80;j++){
+      lcd.drawPixel(j + 2*(j-1) , i + i*2-1 , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j + 2*(j-1) , i + 2 * (i-1) , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j + 2*(j-1) , i*3 , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j + j*2-1   , i + i*2-1 , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j + j*2-1   , i + 2 * (i-1) , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j + j*2-1   , i*3 , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j * 3       , i + i*2-1 , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j * 3       , i + 2 * (i-1) , pgm_read_word(&joystick[imagePos]));
+      lcd.drawPixel(j * 3       , i*3 , pgm_read_word(&joystick[imagePos]));    
+    
+      imagePos++;
+    }
+  } 
+}
 
 void loop() {
-  btn_app = !(digitalRead(APP_CHOOSE));
-  btn_sync = !(digitalRead(SYNC));
-  btn_sett = !(digitalRead(SETT));
 
-  if (btn_app) {
-    lcd.setCursor(10, 100);
-    lcd.write("X");
-  } else
-    lcd.fillRect(5, 95, 30, 30, BLUE);
-
-  if (btn_sync) {
-    lcd.setCursor(105, 100);
-    lcd.write("X");
-  } else
-    lcd.fillRect(100, 95, 30, 30, BLUE);
-
-  if (btn_sett) {
-    lcd.setCursor(210, 100);
-    lcd.write("X");
-  } else
-    lcd.fillRect(205, 95, 30, 30, BLUE);
+lcd.fillScreen(CYAN);
+delay(100);
 }
