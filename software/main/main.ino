@@ -170,7 +170,24 @@ void goApp(){
   else
     NEXT_STATE = VOLUME;
 }
+
+void sync(){
+  for(size_t i = 0; i<1000;i++){
+    if (digitalRead(SYNC))
+      return;
+    delay(1);
+  }
+  Serial.print("SYNC\n");
+}
+
+
+int syncData;
+
 void loop() {
+  syncData = !digitalRead(SYNC);
+  if (syncData)
+    sync();
+
   switch(STATE){
     case VOLUME:
     lcd.fillScreen(RED);
