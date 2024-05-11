@@ -26,6 +26,8 @@
 
 Arduino_ST7789 lcd = Arduino_ST7789(TFT_DC, TFT_RST);
 const int chipSelect = SD_CS;
+size_t appVol = 0;
+
 
 Sd2Card card;
 
@@ -156,6 +158,8 @@ void setup() {
 
   lcd.setTextColor(WHITE);
   lcd.fillScreen(BLACK);
+
+  appVol = 0;
 }
 
 void goSett(){
@@ -181,12 +185,36 @@ void sync(){
 }
 
 
+void appVolume(){
+  size_t currentVol = analogRead(LINEAR);
+  currentVol = map(currentVol, 0, 1023, 0, 100);
+  if (currentVol != appVol){
+    appVol = currentVol;
+    switch (CURRENT_APP){
+      case GAME:
+      Serial.print("GAME ");
+      break;
+      case DISCORD:
+      Serial.print("DISCORD ");
+      break;
+      case SPOTIFY:
+      Serial.print("SPOTIFY ");
+      break;
+    }
+
+    Serial.print(appVol); //udělat print aplikace
+    Serial.print("\n"); //udělat print aplikace
+  }
+}
+
+
 int syncData;
 
 void loop() {
   syncData = !digitalRead(SYNC);
   if (syncData)
     sync();
+  //appVolume(); //bohužel nefunkční, protože HW blbne
 
   switch(STATE){
     case VOLUME:
