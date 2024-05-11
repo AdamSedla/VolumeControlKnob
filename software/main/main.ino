@@ -128,6 +128,12 @@ void drawSpotify() {
     }
   } 
 }
+
+enum states{
+  VOLUME, SETTINGS, APP
+};
+enum states STATE, NEXT_STATE;
+
 void setup() {
   Serial.begin(9600);
   pinMode(SYNC, INPUT_PULLUP);
@@ -152,4 +158,16 @@ void setup() {
   lcd.fillScreen(BLACK);
 }
 void loop() {
+  switch(STATE){
+    case VOLUME:
+    lcd.fillScreen(RED);
+    break;
+    case SETTINGS:
+    lcd.fillScreen(GREEN);
+    break;
+    case APP:
+    lcd.fillScreen(BLUE);
+    break;
+  }
+  STATE = NEXT_STATE;
 }
