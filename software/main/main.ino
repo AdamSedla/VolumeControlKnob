@@ -29,6 +29,13 @@ const int chipSelect = SD_CS;
 
 Sd2Card card;
 
+void lcdInit() {
+  lcd.begin();
+  lcd.fillScreen(BLUE);
+  lcd.setTextSize(3);
+  lcd.setCursor(10, 10);
+  lcd.setTextColor(GREEN);
+}
 void drawDiscord() {
   lcd.fillScreen(BLACK);
   size_t imagePos = 0;
