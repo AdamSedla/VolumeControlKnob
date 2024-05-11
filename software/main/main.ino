@@ -36,6 +36,21 @@ void lcdInit() {
   lcd.setCursor(10, 10);
   lcd.setTextColor(GREEN);
 }
+
+/* void sdInit() {
+  lcd.setCursor(10, 50);
+
+  if (true  SD.begin() ) {  //program se zde bohužel zasekne při pokusu o inicializaci sd karty
+    lcd.setTextColor(GREEN);
+    lcd.write("SD SUCCES");
+    Serial.print("SD SUCCES");
+  } else {
+    lcd.setTextColor(RED);
+    lcd.write("SD FAIL");
+  }
+  Serial.print("SD_INIT DONE\n");
+} */
+
 void drawDiscord() {
   lcd.fillScreen(BLACK);
   size_t imagePos = 0;
