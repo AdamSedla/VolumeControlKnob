@@ -106,3 +106,26 @@ void drawSpotify() {
     }
   } 
 }
+void setup() {
+  Serial.begin(9600);
+  pinMode(SYNC, INPUT_PULLUP);
+  pinMode(SETT, INPUT_PULLUP);
+  pinMode(APP_CHOOSE, INPUT_PULLUP);
+  pinMode(ROT_CLK, INPUT);
+  pinMode(ROT_DT, INPUT);
+  pinMode(ROT_SW, INPUT);
+
+  lcdInit();
+  //sdInit();
+
+  attachInterrupt(digitalPinToInterrupt(APP_CHOOSE), goApp, LOW);
+  attachInterrupt(digitalPinToInterrupt(SETT), goSett, LOW);
+
+  STATE = VOLUME;
+  NEXT_STATE = VOLUME;
+
+  Serial.print("INIT done\n");
+
+  lcd.setTextColor(WHITE);
+  lcd.fillScreen(BLACK);
+}
