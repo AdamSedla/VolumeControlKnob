@@ -157,6 +157,19 @@ void setup() {
   lcd.setTextColor(WHITE);
   lcd.fillScreen(BLACK);
 }
+
+void goSett(){
+  if (STATE != SETTINGS)
+    NEXT_STATE = SETTINGS;
+  else
+    NEXT_STATE = VOLUME;
+}
+void goApp(){
+  if(STATE!=APP)
+    NEXT_STATE = APP;
+  else
+    NEXT_STATE = VOLUME;
+}
 void loop() {
   switch(STATE){
     case VOLUME:
