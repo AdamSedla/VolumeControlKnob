@@ -218,6 +218,30 @@ void appVolume(){
 
     Serial.print(appVol); //udělat print aplikace
     Serial.print("\n"); //udělat print aplikace
+void printSettings(){
+  lcd.fillScreen(BLACK);
+  lcd.setTextColor(WHITE);  
+  lcd.setTextSize(4);
+  lcd.setCursor(10,10);
+  lcd.print("NASTAVENI");
+  lcd.setTextSize(3);
+  lcd.setCursor(30, 50);
+  lcd.print("Skupiny app");
+  lcd.setCursor(30, 80);
+  lcd.print("Jazyk");
+  lcd.setCursor(30, 110);
+  lcd.print("Barva");
+  lcd.setCursor(30, 140);
+  lcd.print("RickRoll");
+  lcd.setCursor(30, 170);
+  lcd.print("Restart");
+  lcd.setCursor(30, 200);
+  lcd.print("Info");
+
+  lcd.setCursor(10,50);
+  lcd.print(">");
+}
+      break;
   }
 }
 
