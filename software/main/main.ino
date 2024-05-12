@@ -15,10 +15,10 @@
 #define SCR_HT 240
 //buttons
 #define SYNC 5
-#define SETT 3
+#define SETT 6
 #define APP_CHOOSE 2
 //rotary
-#define ROT_CLK 6
+#define ROT_CLK 3
 #define ROT_DT 9
 #define ROT_SW 10
 //linear
@@ -149,7 +149,7 @@ void setup() {
   //sdInit();
 
   attachInterrupt(digitalPinToInterrupt(APP_CHOOSE), goApp, LOW);
-  attachInterrupt(digitalPinToInterrupt(SETT), goSett, LOW);
+  attachInterrupt(digitalPinToInterrupt(ROT_CLK), readVolume, CHANGE);
 
   STATE = VOLUME;
   NEXT_STATE = VOLUME;
