@@ -130,6 +130,20 @@ void drawSpotify() {
     }
   } 
 }
+void writeSpotify(){
+  lcd.fillScreen(BLACK);
+  lcd.setTextColor(GREEN);  
+  lcd.setTextSize(5);
+  lcd.setCursor(20,100);
+  lcd.print("SPOTIFY");
+}
+void writeDiscord(){
+  lcd.fillScreen(BLACK);
+  lcd.setTextColor(BLUE);  
+  lcd.setTextSize(5);
+  lcd.setCursor(15,100);
+  lcd.print("DISCORD");
+}
 
 enum states{
   VOLUME, SETTINGS, APP
