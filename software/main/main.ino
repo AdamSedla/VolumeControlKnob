@@ -211,13 +211,15 @@ void sync(){
       return;
     delay(1);
   }
-  Serial.print("SYNC\n");
+  Serial.print("SYNC ");
+  Serial.print(appVol);
+  Serial.print("\n");
 }
 
 
 void appVolume(){
   size_t currentVol = analogRead(LINEAR);
-  currentVol = map(currentVol, 0, 1023, 0, 100);
+  currentVol = map(currentVol, 1023, 0, 0, 100);
   if (currentVol != appVol){
     appVol = currentVol;
     switch (CURRENT_APP){
@@ -232,8 +234,21 @@ void appVolume(){
       break;
     }
 
-    Serial.print(appVol); //udělat print aplikace
-    Serial.print("\n"); //udělat print aplikace
+    Serial.print(appVol);
+    Serial.print("\n");
+  }
+}
+void readVolume(){
+  currentClkState = digitalRead(ROT_CLK);
+  if (currentClkState != lastClkState) {
+    if (digitalRead(ROT_DT) != currentClkState)
+      move++;
+    else
+      move--;
+  }
+  lastClkState = currentClkState;
+}
+
 void printSettings(){
   lcd.fillScreen(BLACK);
   lcd.setTextColor(WHITE);  
@@ -387,8 +402,19 @@ void loop() {
 
   switch(STATE){
     case VOLUME:
-    lcd.fillScreen(RED);
-    break;
+      if (move > 0){
+        Serial.print("VOL +\n");
+        move = 0;
+      }
+      if (move < 0){
+        Serial.print("VOL -\n");
+        move = 0;
+      }
+      if(click){
+        Serial.print("MUTE\n");
+        click = 0;
+      }
+      break;
     case SETTINGS:
       switch(POS_STATE){
         case APPSK: //0
