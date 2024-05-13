@@ -272,6 +272,29 @@ void chooseArrow(){
   }
 }
 
+void printApps(){
+  lcd.fillScreen(BLACK);
+  lcd.setTextColor(WHITE);  
+  lcd.setTextSize(4);
+  lcd.setCursor(10,10);
+  lcd.print("APLIKACE");
+  lcd.setTextSize(3);
+  lcd.setCursor(30, 50);
+  lcd.setTextColor(RED);
+  lcd.print("Hry");
+  lcd.setTextColor(GREEN);
+  lcd.setCursor(30, 80);
+  lcd.print("Spotify");
+  lcd.setTextColor(BLUE);
+  lcd.setCursor(30, 110);
+  lcd.print("Discord");
+
+  chooseArrow();
+
+  lcd.setTextColor(WHITE);  
+  lcd.print(">");
+}
+
 void printIcon(){
   switch(CURRENT_APP){
     case GAME:
@@ -286,6 +309,48 @@ void printIcon(){
   }
 }
 
+void printMenu0(){
+  lcd.fillRect(0,50,30,180,BLACK);
+  lcd.setTextSize(3);
+  lcd.setTextColor(WHITE);
+  lcd.setCursor(10,50); //+30
+  lcd.print(">");
+}
+void printMenu1(){
+  lcd.fillRect(0,50,30,180,BLACK);
+  lcd.setTextSize(3);
+  lcd.setTextColor(WHITE);
+  lcd.setCursor(10,80); //+30
+  lcd.print(">");
+}
+void printMenu2(){
+  lcd.fillRect(0,50,30,180,BLACK);
+  lcd.setTextSize(3);
+  lcd.setTextColor(WHITE);
+  lcd.setCursor(10,110); //+30
+  lcd.print(">");
+}
+void printMenu3(){
+  lcd.fillRect(0,50,30,180,BLACK);
+  lcd.setTextSize(3);
+  lcd.setTextColor(WHITE);
+  lcd.setCursor(10,140); //+30
+  lcd.print(">");
+}
+void printMenu4(){
+  lcd.fillRect(0,50,30,180,BLACK);
+  lcd.setTextSize(3);
+  lcd.setTextColor(WHITE);
+  lcd.setCursor(10,170); //+30
+  lcd.print(">");
+}
+void printMenu5(){
+  lcd.fillRect(0,50,30,180,BLACK);
+  lcd.setTextSize(3);
+  lcd.setTextColor(WHITE);
+  lcd.setCursor(10,200); //+30
+  lcd.print(">");
+}
 int syncData;
 enum apps MENU_APP, NEXT_MENU_APP;
 
@@ -325,8 +390,178 @@ void loop() {
     lcd.fillScreen(RED);
     break;
     case SETTINGS:
-    lcd.fillScreen(GREEN);
-    break;
+      switch(POS_STATE){
+        case APPSK: //0
+          if(!block){
+            if(move > 0){
+              printMenu1();
+              POS_NEXT_STATE = LANG;
+            }
+            else if(move < 0){
+              printMenu5();
+              POS_NEXT_STATE = INFO;
+            }
+          }
+          if(click){
+            // vybrat skupiny aplikací
+            if(!block){
+              lcd.fillScreen(BLACK);
+              lcd.setTextColor(WHITE);  
+              lcd.setTextSize(5);
+              lcd.setCursor(20,100);
+              lcd.print("skupiny");
+              block = true;
+            }
+            else{
+              printSettings();
+              block = false;
+            }
+          }
+          break;
+        case LANG: //1
+          if(!block){
+            if(move > 0){
+              printMenu2();
+              POS_NEXT_STATE = CLR;
+            }
+            else if(move < 0){
+              printMenu0();
+              POS_NEXT_STATE = APPSK;
+            }
+          }
+          if(click){
+            // vybrat výběr jazyka
+            if(!block){
+            lcd.fillScreen(BLACK);
+            lcd.setTextColor(WHITE);  
+            lcd.setTextSize(5);
+            lcd.setCursor(20,100);
+            lcd.print("jazyk");
+            block = true;
+            }
+            else{
+              printSettings();
+              printMenu1();
+              block = false;
+            }
+          }
+          break;
+        case CLR: //2
+          if(!block){
+            if(move > 0){
+              printMenu3();
+              POS_NEXT_STATE = RR;
+            }
+            else if(move < 0){
+              printMenu1();
+              POS_NEXT_STATE = LANG;
+            }
+          }
+          if(click){
+            if(!block){
+              // vybrat výběr barvy
+              lcd.fillScreen(BLACK);
+              lcd.setTextColor(WHITE);  
+              lcd.setTextSize(5);
+              lcd.setCursor(20,100);
+              lcd.print("barvy");
+              block = true;
+            } else{
+              printSettings();
+              printMenu2();
+              block = false;
+            }
+          }
+          break;
+        case RR: //3
+          if(!block){
+            if(move > 0){
+              printMenu4();
+              POS_NEXT_STATE = RST;
+            }
+            else if(move < 0){
+              printMenu2();
+              POS_NEXT_STATE = CLR;
+            }
+          }
+          if(click){
+            if(!block){
+              // vybrat rickRoll
+              lcd.fillScreen(BLACK);
+              lcd.setTextColor(WHITE);  
+              lcd.setTextSize(2);
+              lcd.setCursor(0,100);
+              lcd.print("NeverGonnaGiveYouUp");
+              block = true;
+            }
+            else{
+              printSettings();
+              printMenu3();
+              block = false;
+            }
+          }
+          break;
+        case RST: //4
+          if(!block){
+            if(move > 0){
+              printMenu5();
+              POS_NEXT_STATE = INFO;
+            }
+            else if(move < 0){
+              printMenu3();
+              POS_NEXT_STATE = RR;
+            }
+          }
+          if(click){
+            if(!block){
+              // vybrat reset
+              lcd.fillScreen(BLACK);
+              lcd.setTextColor(WHITE);  
+              lcd.setTextSize(5);
+              lcd.setCursor(20,100);
+              lcd.print("RESET");
+              block = true;
+            }
+            else{
+              printSettings();
+              printMenu4();
+              block = false;
+            }
+          }
+          break;
+        case INFO: //5
+          if(!block){
+            if(move > 0){
+              printMenu0();
+              POS_NEXT_STATE = APPSK;
+            }
+            else if(move < 0){
+              printMenu4();
+              POS_NEXT_STATE = RST;
+            }
+          }  
+          if(click){
+            if(!block){
+              // vybrat info
+              lcd.fillScreen(BLACK);
+              lcd.setTextColor(WHITE);  
+              lcd.setTextSize(5);
+              lcd.setCursor(20,100);
+              lcd.print("info");
+              block = true;
+            }
+            else{
+              printSettings();
+              printMenu5();
+              block = false;
+            }
+          }
+          break;
+      }
+      POS_STATE = POS_NEXT_STATE;
+      move = 0;
+      click = 0;
+      break;
     case APP:
       switch(MENU_APP){
         case GAME: //0
