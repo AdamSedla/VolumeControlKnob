@@ -26,7 +26,12 @@
 
 Arduino_ST7789 lcd = Arduino_ST7789(TFT_DC, TFT_RST);
 const int chipSelect = SD_CS;
-size_t appVol = 0;
+size_t appVol;
+int move;
+int lastClkState;
+int currentClkState;
+int click;
+bool block;
 
 
 Sd2Card card;
@@ -181,6 +186,10 @@ void setup() {
   lcd.fillScreen(BLACK);
 
   appVol = 0;
+  move = 0;
+  lastClkState = 0;
+  click = 0;
+  block = false;
 }
 
 void goSett(){
