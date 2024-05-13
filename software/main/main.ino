@@ -366,12 +366,28 @@ void printMenu5(){
   lcd.setCursor(10,200); //+30
   lcd.print(">");
 }
+
+void checkClick(){
+  while(!digitalRead(ROT_SW));
+  click = 1;
+}
+
 int syncData;
+int clickData;
+int settData;
+
+enum settPos{
+  APPSK, LANG, CLR, RR, RST, INFO
+};
+enum settPos POS_STATE, POS_NEXT_STATE; 
+
 enum apps MENU_APP, NEXT_MENU_APP;
 
 void loop() {
   syncData = !digitalRead(SYNC);
-  if (syncData)
+  clickData = !digitalRead(ROT_SW);
+  settData = !digitalRead(SETT);
+  if (syncData && STATE == VOLUME)
     sync();
   if(STATE == VOLUME)
     appVolume();
