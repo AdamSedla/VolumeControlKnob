@@ -150,6 +150,11 @@ enum states{
 };
 enum states STATE, NEXT_STATE;
 
+enum apps{
+  GAME, DISCORD, SPOTIFY
+};
+enum apps CURRENT_APP;
+
 void setup() {
   Serial.begin(9600);
   pinMode(SYNC, INPUT_PULLUP);
@@ -167,6 +172,8 @@ void setup() {
 
   STATE = VOLUME;
   NEXT_STATE = VOLUME;
+
+  CURRENT_APP = GAME;
 
   Serial.print("INIT done\n");
 
@@ -241,12 +248,37 @@ void printSettings(){
   lcd.setCursor(10,50);
   lcd.print(">");
 }
+
+void chooseArrow(){
+    switch(CURRENT_APP){
+    case GAME:
+      lcd.setCursor(10,50);
+      break;
+    case SPOTIFY:
+      lcd.setCursor(10,80);
+      break;
+    case DISCORD:
+      lcd.setCursor(10,110);
       break;
   }
 }
 
+void printIcon(){
+  switch(CURRENT_APP){
+    case GAME:
+      drawJoystick();
+      break;
+    case DISCORD:
+      writeDiscord();
+      break;
+    case SPOTIFY:
+      writeSpotify();
+      break;
+  }
+}
 
 int syncData;
+enum apps MENU_APP, NEXT_MENU_APP;
 
 void loop() {
   syncData = !digitalRead(SYNC);
@@ -262,7 +294,53 @@ void loop() {
     lcd.fillScreen(GREEN);
     break;
     case APP:
-    lcd.fillScreen(BLUE);
+      switch(MENU_APP){
+        case GAME: //0
+          if(move > 0){
+            printMenu1();
+            NEXT_MENU_APP = SPOTIFY;
+          }
+          else if(move < 0){
+            printMenu2();
+            NEXT_MENU_APP = DISCORD;
+          }
+          if(click){
+            CURRENT_APP = GAME;
+            NEXT_STATE = VOLUME;
+          }
+          break;
+        case SPOTIFY: //1
+          if(move > 0){
+            printMenu2();
+            NEXT_MENU_APP = DISCORD;
+          }
+          else if(move < 0){
+            printMenu0();
+            NEXT_MENU_APP = GAME;
+          }
+          if(click){
+            CURRENT_APP = SPOTIFY;
+            NEXT_STATE = VOLUME;
+          }
+          break;
+        case DISCORD: //2
+          if(move > 0){
+            printMenu0();
+            NEXT_MENU_APP = GAME;
+          }
+          else if(move < 0){
+            printMenu1();
+            NEXT_MENU_APP = SPOTIFY;
+          }
+          if(click){
+            CURRENT_APP = DISCORD;
+            NEXT_STATE = VOLUME;
+          }
+          break;
+      }
+      move = 0;
+      click = 0;
+      MENU_APP = NEXT_MENU_APP;
     break;
   }
   STATE = NEXT_STATE;
