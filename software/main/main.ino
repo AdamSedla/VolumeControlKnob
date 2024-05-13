@@ -175,8 +175,8 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(APP_CHOOSE), goApp, LOW);
   attachInterrupt(digitalPinToInterrupt(ROT_CLK), readVolume, CHANGE);
 
-  STATE = VOLUME;
-  NEXT_STATE = VOLUME;
+  STATE = SETTINGS;
+  NEXT_STATE = APP;
 
   CURRENT_APP = GAME;
 
@@ -293,7 +293,32 @@ void loop() {
   syncData = !digitalRead(SYNC);
   if (syncData)
     sync();
-  //appVolume(); //bohužel nefunkční, protože HW blbne
+  if(STATE == VOLUME)
+    appVolume();
+  if(settData){
+    goSett();
+    POS_STATE = APPSK;
+    POS_NEXT_STATE = APPSK;
+  }
+  if(NEXT_STATE != STATE){ //nastavení dalšího stavu
+    switch(NEXT_STATE){
+      case VOLUME:
+      printIcon();
+      break;
+      case SETTINGS:
+      printSettings();
+      delay(100);
+      break;
+      case APP:
+      printApps();
+      MENU_APP = CURRENT_APP;
+      NEXT_MENU_APP = CURRENT_APP;
+      break;
+    }
+    STATE = NEXT_STATE;
+  } 
+  if(clickData)
+    checkClick();
 
   switch(STATE){
     case VOLUME:
@@ -352,5 +377,4 @@ void loop() {
       MENU_APP = NEXT_MENU_APP;
     break;
   }
-  STATE = NEXT_STATE;
 }
